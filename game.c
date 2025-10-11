@@ -33,16 +33,17 @@ void initializeBoard(int *board){
     }
 }
 
-void printBoard(const int *board){
+void printBoard(const int *board) {
     int index = 0;
+    char piceChar[] = "-OX|";
 
-    printf("\nBoard:\n");
-    for (index=0; index<25;++index){
-        if (index!=0 & index%5==0){
-            printf("\n");
+    printf("\n\nBoard:\n\n");
+    for (index = 0; index < 9; ++index) {
+        if (index != 0 && index % 3 == 0) {
+            printf("\n\n");
         }
 
-        printf("%4d", board[index]);
+        printf("%4c", piceChar[board[convertTo25[index]]]);
     }
     printf("\n");
 }
