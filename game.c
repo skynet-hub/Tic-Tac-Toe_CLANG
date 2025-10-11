@@ -48,6 +48,57 @@ void printBoard(const int *board) {
     printf("\n");
 }
 
+int getHumanMove(const int *board) {
+    char userInput[10];
+    int moveOk = 0;
+    int move = -1;
+
+    while (!moveOk) {
+        printf("Enter your move (1-9): ");
+        fgets(userInput, sizeof(userInput), stdin);
+
+        // remove newline if present
+        userInput[strcspn(userInput, "\n")] = '\0';
+
+        // try to parse the number
+        if (sscanf(userInput, "%d", &move) != 1) {
+            printf("Please enter a valid number.\n");
+            continue;
+        }
+
+        if (move < 1 || move > 9) {
+            printf("Move must be between 1 and 9.\n");
+            continue;
+        }
+
+        move--; // zero-based index
+
+        if (board[convertTo25[move]] != EMPTY) {
+            printf("That square is already taken. Try another.\n");
+            continue;
+        }
+
+        moveOk = 1;
+    }
+
+    printf("Making move %d...\n", move + 1);
+    return convertTo25[move];
+}
+
+
+int HasEmpty(const int *board){
+    int index = 0;
+
+    for (index=0; index<9; ++index){
+        if (board[convertTo25[index]] == EMPTY) return 1;
+    }
+    return 0;
+}
+
+void makeMove(int *board,const int sq, const int side){
+    board[sq] = side;
+}
+
 void Game(){
 
     int gameOver = 0;
@@ -60,7 +111,8 @@ void Game(){
 
     while (!gameOver){
         if (side==NOUGHTS){
-           //get move from human, make move on the board, change sides
+            //get move from human, make move on the board, change sides
+            getHumanMove(&board[0]);
         } else {
             //get move from computer, make the move on the board, change sides
             printBoard(&board[0]);
